@@ -10,7 +10,8 @@
   "keywords": [],
   "scripts": {
     "build": "webpack --mode production",
-    "dev": "webpack  --watch --mode development",
+    "dev": "webpack  --mode development",
+    "watch": "webpack  --watch --mode development",
     "eslint-check": "eslint --print-config .eslintrc.json | eslint-config-prettier-check",
     "prepublishOnly": "npm run test && rm -r dist && npm run build",
     "flow": "flow"
