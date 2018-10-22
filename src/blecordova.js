@@ -1,10 +1,4 @@
 class BleCordova {
-  constructor() {
-    this.wantScan = false;
-    this.scaning = false;
-    this.paused = 0;
-  }
-
   startScan(srvUUIDs, scanCb, errorCb, duplicates) {
     console.log("BleCordova.startScan");
     this.scanning = true;
@@ -212,25 +206,21 @@ class BleCordova {
     });
   }
 
-  pauseScan() {}
-
-  resumeScan() {}
-
   isEnabled() {}
 
   startStateNotifications(stateChangedCb) {}
 
-  connect(mac, peerClosedCb) {}
+  connect(deviceId, peerClosedCb) {}
 
-  disconnect(mac) {}
+  disconnect(deviceId) {}
 
-  startNotification(mac, srvUUID, charUUID, dataCb) {}
+  startNotification(deviceId, srvUUID, charUUID, dataCb) {}
 
-  stopNotification(mac, srvUUID, charUUID) {}
+  stopNotification(deviceId, srvUUID, charUUID) {}
 
-  writeWithoutResponse(mac, srvUUID, charUUID, data) {}
+  writeWithoutResponse(deviceId, srvUUID, charUUID, data) {}
 
-  write(mac, srvUUID, charUUID, data) {}
+  write(deviceId, srvUUID, charUUID, data) {}
 }
 
 exports.BleCordova = BleCordova;
