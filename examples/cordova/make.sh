@@ -18,23 +18,18 @@ prerun() {
     cp ../../dist/multible.js cordova/www
 }
 
-run() {
-    prerun
-    pushd cordova > /dev/null
-    cordova run $1
-    popd > /dev/null
-}
-
 for arg in "$@"
 do
     case $arg in
      ra)
           echoHeader "Running Android cordova project"
-          run android
+          prerun
+          pushd cordova > /dev/null
+          cordova run android
+          popd > /dev/null
           ;;       
     ri)
           echoHeader "Running iOS cordova project"
-
           prerun
           pushd cordova > /dev/null
           cordova prepare ios
