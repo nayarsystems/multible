@@ -1,7 +1,6 @@
 class BleCordova {
   startScan(srvUUIDs, scanCb, errorCb, duplicates) {
     console.log("BleCordova.startScan");
-    this.scanning = true;
 
     window.ble.startScanWithOptions(
       srvUUIDs,
@@ -37,7 +36,6 @@ class BleCordova {
         "kCBAdvDataServiceData": {
             "BBB0": {}   // arraybuffer data not shown
         },
-
     */
 
     return {
@@ -71,8 +69,6 @@ class BleCordova {
     const data = {};
     let i = 0;
 
-    // console.log(`advertising: ${JSON.stringify(arr)}`);
-
     while (i < arr.length) {
       const length = arr[i++] - 1;
       if (length === -1) {
@@ -80,7 +76,6 @@ class BleCordova {
       }
 
       const type = arr[i++];
-      // console.log(`type=${type} length=${length}`);
 
       switch (type) {
         case 0x01:
@@ -196,31 +191,108 @@ class BleCordova {
   }
 
   async stopScan() {
-    if (!this.scaning) {
-      return Promise.resolve();
-    }
-    this.scaning = false;
-
     return new Promise((resolve, reject) => {
-      // window.ble.stopScan(resolve, reject);
+      window.ble.stopScan(resolve, reject);
     });
   }
 
-  isEnabled() {}
+  async isEnabled() {
+    return new Promise(resolve => {
+      window.ble.isEnabled(
+        () => {
+          resolve(true);
+        },
+        () => {
+          resolve(false);
+        }
+      );
+    });
+  }
 
-  startStateNotifications(stateChangedCb) {}
+  /* 
+  "on"
+  "off"
+  "turningOn" (Android Only)
+  "turningOff" (Android Only)
+  "unknown" (iOS Only)
+  "resetting" (iOS Only)
+  "unsupported" (iOS Only)
+  "unauthorized" (iOS Only)
+  */
+  startStateNotifications(stateChangedCb) {
+    return new Promise((resolve, reject) => {
+      window.ble.startStateNotifications(stateChangedCb, reject);
+      resolve();
+    });
+  }
 
-  connect(deviceId, peerClosedCb) {}
+  async stopStateNotifications() {
+    return new Promise((resolve, reject) => {
+      window.ble.stopStateNotifications(resolve, reject);
+    });
+  }
 
-  disconnect(deviceId) {}
+  async connect(deviceId, peerClosedCb) {
+    return new Promise(resolve => {
+      window.ble.connect(
+        deviceId,
+        resolve,
+        peerClosedCb
+      );
+    });
+  }
 
-  startNotification(deviceId, srvUUID, charUUID, dataCb) {}
+  async disconnect(deviceId) {
+    return new Promise((resolve, reject) => {
+      window.ble.disconnect(deviceId, resolve, reject);
+    });
+  }
 
-  stopNotification(deviceId, srvUUID, charUUID) {}
+  async isConnected(deviceId) {
+    return new Promise(resolve => {
+      window.ble.isConnected(
+        deviceId,
+        () => {
+          resolve(true);
+        },
+        () => {
+          resolve(false);
+        }
+      );
+    });
+  }
 
-  writeWithoutResponse(deviceId, srvUUID, charUUID, data) {}
+  async writeWithoutResponse(deviceId, srvUUID, charUUID, data) {
+    return new Promise((resolve, reject) => {
+      window.ble.writeWithoutResponse(
+        deviceId,
+        srvUUID,
+        charUUID,
+        data,
+        resolve,
+        reject
+      );
+    });
+  }
 
-  write(deviceId, srvUUID, charUUID, data) {}
+  async write(deviceId, srvUUID, charUUID, data) {
+    return new Promise((resolve, reject) => {
+      window.ble.write(deviceId, srvUUID, charUUID, data, resolve, reject);
+    });
+  }
+
+  async startNotification(deviceId, srvUUID, charUUID, dataCb) {
+    return new Promise((resolve, reject) => {
+      window.ble.startNotification(deviceId, srvUUID, charUUID, dataCb, reject);
+      resolve();
+    });
+  }
+
+  async stopNotification(deviceId, srvUUID, charUUID) {
+    return new Promise((resolve, reject) => {
+      window.ble.stopNotification(deviceId, srvUUID, charUUID, resolve, reject);
+    });
+  }
 }
 
 exports.BleCordova = BleCordova;

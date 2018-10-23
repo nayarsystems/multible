@@ -38,28 +38,32 @@
 </head>
 
 <body>
-    <div id="app">
-        <div id="text">
-            <button id="clear-debug" onclick="app.clearDebug()">CLEAR DEBUG</button>
-            <div id="text-content"></div>
-        </div>
-        <button id="toggle-debug" onclick="app.toggleDebug()">DEBUG</button>
-        <button id="scan-qr" onclick="app.initScan()">SCAN QR</button>
-    </div>
     <script src="cordova.js"></script>
     <script src="multible.js"></script>
+    <script src="msgpack.min.js"></script>
     <script>
-        document.addEventListener("deviceready", () => {
+        document.addEventListener("deviceready", async () => {
             let ble = new window.multible.BleCordova();
-            ble.startScan([], (dev) => {
-                console.log("scan result: " + JSON.stringify(dev))
-            }, false);
 
-            setTimeout(() => {
-                console.log("before stop");
-                ble.stopScan();
-                console.log("after stop");
-            }, 5000);
+            console.log("isConnected:" + await ble.isConnected("24:0A:C4:04:0D:1A"));
+
+            console.log("before connect");
+            let dev = await ble.connect("24:0A:C4:04:0D:1A", () => {
+                console.log("closed");
+            })
+
+            console.log("connect done: dev=" + JSON.stringify(dev));
+            console.log("isConnected:" + await ble.isConnected("24:0A:C4:04:0D:1A"));
+
+            await ble.startNotification("24:0A:C4:04:0D:1A", "00000000-8134-45d2-a62c-5cc211481e13", "00000001-8134-45d2-a62c-5cc211481e13", data => {
+                console.log("received packet: " + data);
+            });
+
+            let data = msgpack.encode({ "t": "i" });
+            console.log("data: " + data.buffer);
+
+            await ble.writeWithoutResponse("24:0A:C4:04:0D:1A", "00000000-8134-45d2-a62c-5cc211481e13", "00000001-8134-45d2-a62c-5cc211481e13", data.buffer);
+            console.log("write done");
         }, false);
     </script>
 

@@ -10,6 +10,7 @@
     "no-plusplus": "off",
     "no-console": "off",
     "prefer-const": "off",
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "class-methods-use-this": "off"
   }
 }
