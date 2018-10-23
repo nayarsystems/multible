@@ -19,10 +19,10 @@ class BleCordova {
   }
 
   static parseAdvertising(device) {
-    if (window.device.platform === "iOS") {
-      return BleCordova.parseAdvertisingIos(device);
+    if (device.advertising instanceof ArrayBuffer) {
+      return BleCordova.parseAdvertisingAndroid(device);
     }
-    return BleCordova.parseAdvertisingAndroid(device);
+    return BleCordova.parseAdvertisingIos(device);
   }
 
   static parseAdvertisingIos(device) {
@@ -263,6 +263,10 @@ class BleCordova {
   }
 
   async writeWithoutResponse(deviceId, srvUUID, charUUID, data) {
+    if (window.device.platform === "iOS") {
+      return this.write(deviceId, srvUUID, charUUID, data);
+    }
+
     return new Promise((resolve, reject) => {
       window.ble.writeWithoutResponse(
         deviceId,
