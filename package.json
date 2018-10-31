@@ -6,7 +6,6 @@
   "license": "MIT",
   "repository": "https://github.com/nayarsystems/multible",
   "main": "dist/multible.js",
-  "module": "src/index.js",
   "keywords": [],
   "scripts": {
     "build": "webpack --mode production",
@@ -17,8 +16,7 @@
     "flow": "flow"
   },
   "files": [
-    "dist/multible.js",
-    "src/index.js"
+    "dist/multible.js"
   ],
   "devDependencies": {
     "eslint": "^5.7.0",
