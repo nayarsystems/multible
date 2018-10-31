@@ -2,9 +2,9 @@
   "name": "multible",
   "version": "1.0.0",
   "description": "BLE library",
-  "private": true,
   "author": "Angel Jimenez <ajimenez@nayarsystems.com>",
   "license": "MIT",
+  "repository": "https://github.com/nayarsystems/multible",
   "main": "dist/multible.js",
   "module": "src/index.js",
   "keywords": [],
@@ -13,7 +13,7 @@
     "dev": "webpack  --mode development",
     "watch": "webpack  --watch --mode development",
     "eslint-check": "eslint --print-config .eslintrc.json | eslint-config-prettier-check",
-    "prepublishOnly": "npm run test && rm -r dist && npm run build",
+    "prepublishOnly": "rm -rf dist && npm run build",
     "flow": "flow"
   },
   "files": [
