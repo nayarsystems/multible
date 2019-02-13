@@ -2,7 +2,8 @@
   "extends": ["airbnb-base", "prettier", "plugin:prettier/recommended"],
   "plugins": ["prettier"],
   "globals": {
-    "window": true
+    "window": true,
+    "wx": true
   },
   "rules": {
     "no-underscore-dangle": "off",
@@ -11,6 +12,12 @@
     "no-console": "off",
     "prefer-const": "off",
     "no-param-reassign": ["error", { "props": false }],
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-restricted-syntax": [
+      "error",
+      "ForInStatement",
+      "LabeledStatement",
+      "WithStatement"
+    ]
   }
 }
