@@ -34,7 +34,6 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name=viewport content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
     <title>Hello World</title>
 </head>
 
@@ -45,26 +44,39 @@
     <script>
         document.addEventListener("deviceready", async () => {
             let ble = window.multible.create();
+            let connecting = false;
 
-            console.log("isConnected:" + await ble.isConnected("24:0A:C4:04:0D:1A"));
+            ble.startScan([],
+                async (device) => {
+                    console.log("startScan device:", device);
 
-            console.log("before connect");
-            let dev = await ble.connect("24:0A:C4:04:0D:1A", () => {
-                console.log("closed");
-            })
+                    if (connecting)
+                        return;
+                    connecting = true;
 
-            console.log("connect done: dev=" + JSON.stringify(dev));
-            console.log("isConnected:" + await ble.isConnected("24:0A:C4:04:0D:1A"));
+                    console.log("isConnected:", await ble.isConnected(device.id));
 
-            await ble.startNotification("24:0A:C4:04:0D:1A", "00000000-8134-45d2-a62c-5cc211481e13", "00000001-8134-45d2-a62c-5cc211481e13", data => {
-                console.log("received packet: " + data);
-            });
+                    console.log("before connect");
+                    let dev = await ble.connect(device.id, () => {
+                        console.log("closed");
+                    })
 
-            let data = msgpack.encode({ "t": "i" });
-            console.log("data: " + data.buffer);
+                    console.log("connect done: dev=" + JSON.stringify(dev));
+                    console.log("isConnected:" + await ble.isConnected(device.id));
 
-            await ble.writeWithoutResponse("24:0A:C4:04:0D:1A", "00000000-8134-45d2-a62c-5cc211481e13", "00000001-8134-45d2-a62c-5cc211481e13", data.buffer);
-            console.log("write done");
+                    await ble.startNotification(device.id, "00000000-8134-45d2-a62c-5cc211481e13", "00000001-8134-45d2-a62c-5cc211481e13", data => {
+                        console.log("received packet: " + data);
+                    });
+
+                    let data = msgpack.encode({ "t": "i" });
+                    console.log("data: " + data.buffer);
+
+                    await ble.writeWithoutResponse(device.id, "00000000-8134-45d2-a62c-5cc211481e13", "00000001-8134-45d2-a62c-5cc211481e13", data.buffer);
+                    console.log("write done");
+                },
+                (err) => {
+                    console.log("error scanning:", err);
+                }, false);
         }, false);
     </script>
 
