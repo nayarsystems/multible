@@ -234,14 +234,10 @@ class BleCordova {
 
   async connect(deviceId, peerClosedCb) {
     return new Promise((resolve, reject) => {
-      window.ble.connect(
-        deviceId,
-        resolve,
-        () => {
-          reject();
-          peerClosedCb();
-        }
-      );
+      window.ble.connect(deviceId, resolve, () => {
+        reject();
+        peerClosedCb();
+      });
     });
   }
 
