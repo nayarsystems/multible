@@ -15,7 +15,7 @@ prerun() {
     rm -rf cordova/www/
     cp -r app cordova/www
     npm run dev
-    cp ../../dist/multible.js cordova/www
+    cp ../../dist/multible.js* cordova/www
 }
 
 for arg in "$@"
