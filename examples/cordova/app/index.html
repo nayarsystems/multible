@@ -44,7 +44,7 @@
     <script src="msgpack.min.js"></script>
     <script>
         document.addEventListener("deviceready", async () => {
-            let ble = new window.multible.BleCordova();
+            let ble = window.multible.create();
 
             console.log("isConnected:" + await ble.isConnected("24:0A:C4:04:0D:1A"));
 
