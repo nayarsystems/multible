@@ -1,6 +1,6 @@
 class BleCordova {
   startScan(srvUUIDs, scanCb, errorCb, duplicates) {
-    console.log("BleCordova.startScan");
+    // console.log("BleCordova.startScan");
 
     window.ble.startScanWithOptions(
       srvUUIDs,

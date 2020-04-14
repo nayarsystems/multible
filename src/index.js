@@ -1,14 +1,21 @@
 const blecordova = require("./blecordova.js");
 const blewechat = require("./blewechat.js");
+const logs = require("./logs.js");
 
-exports.create = () => {
+
+exports.create = (options) => {
+  if (options && options.logs === false) {
+    logs.enableLogs(false);
+  }
+
   if (window && window.cordova) {
-    console.log("multible: detected Cordova");
+    logs.log("multible: detected Cordova");
     return new blecordova.BleCordova();
   }
   if (global && global.wx) {
-    console.log("multible: detected WeChat");
+    logs.log("multible: detected WeChat");
     return new blewechat.BleWeChat();
   }
   throw new Error("Unknown environment");
 };
+
