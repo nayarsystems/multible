@@ -38,9 +38,14 @@ class BleCordova {
         },
     */
 
+    var buffer = device.advertising.kCBAdvDataManufacturerData;
+
+    let key = this.formatUUID(new Uint8Array(buffer, 0, 2));
+    let value = new Uint8Array(buffer, 2, buffer.byteLength - 2);
+
     return {
       localName: device.advertising.kCBAdvDataLocalName,
-      manufacturerData: device.advertising.kCBAdvDataManufacturerData,
+      manufacturerData: { [key]: value },
       serviceUUIDs: device.advertising.kCBAdvDataServiceUUIDs,
       serviceData: device.advertising.kCBAdvDataServiceData,
       txPowerLevel: device.advertising.kCBAdvDataTxPowerLevel
