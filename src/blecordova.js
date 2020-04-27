@@ -104,8 +104,7 @@ class BleCordova {
         }
         case 0x08:
         case 0x09: {
-          let fieldData = new Uint8Array(arr.buffer, i, length);
-          data.localName = new window.TextDecoder("utf-8").decode(fieldData);
+          data.localName = String.fromCharCode.apply(null, new Uint8Array(arr.slice(i, i + length)))
           i += length;
           break;
         }
