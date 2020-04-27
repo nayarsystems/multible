@@ -48,7 +48,7 @@
 
             ble.startScan([],
                 async (device) => {
-                    console.log("startScan device:", device);
+                    console.log("startScan device:", JSON.stringify(device));
 
                     if (connecting)
                         return;
@@ -76,7 +76,7 @@
                 },
                 (err) => {
                     console.log("error scanning:", err);
-                }, false);
+                }, true);
         }, false);
     </script>
 
